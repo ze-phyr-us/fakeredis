@@ -280,6 +280,10 @@ class TestFakeStrictRedis(unittest.TestCase):
     def test_delete_nonexistent_key(self):
         self.assertEqual(self.redis.delete('foo'), False)
 
+    def test_incrbyfloat(self):
+        self.redis.set('mykey', 10.50)
+        self.assertEqual(self.redis.incrbyfloat('mykey', 0.1), 10.6)
+
     ## Tests for the list type.
 
     def test_lpush_then_lrange_all(self):

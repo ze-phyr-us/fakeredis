@@ -357,6 +357,11 @@ class FakeStrictRedis(object):
                 return self._db.get(key)
         data.sort(key=_by_key)
 
+    def incrbyfloat(self, key, amount=1.0):
+        current = float(self._db[key])
+        self._db[key] = float(current) + float(amount)
+        return float(self._db[key])
+
     def lpush(self, name, *values):
         self._db.setdefault(name, [])[0:0] = list(reversed((values)))
         return len(self._db[name])
