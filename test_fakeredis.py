@@ -727,9 +727,13 @@ class TestFakeStrictRedis(unittest.TestCase):
 
     def test_hincrby(self):
         self.redis.hset('foo', 'counter', 0)
+        self.assertEqual(self.redis.hget('foo', 'counter'), b'0')
         self.assertEqual(self.redis.hincrby('foo', 'counter'), 1)
+        self.assertEqual(self.redis.hget('foo', 'counter'), b'1')
         self.assertEqual(self.redis.hincrby('foo', 'counter'), 2)
+        self.assertEqual(self.redis.hget('foo', 'counter'), b'2')
         self.assertEqual(self.redis.hincrby('foo', 'counter'), 3)
+        self.assertEqual(self.redis.hget('foo', 'counter'), b'3')
 
     def test_hincrby_with_no_starting_value(self):
         self.assertEqual(self.redis.hincrby('foo', 'counter'), 1)

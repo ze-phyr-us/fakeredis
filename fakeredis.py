@@ -761,7 +761,7 @@ class FakeStrictRedis(object):
     def hincrby(self, name, key, amount=1):
         "Increment the value of ``key`` in hash ``name`` by ``amount``"
         new = int(self._db.setdefault(name, _Hash()).get(key, '0')) + amount
-        self._db[name][key] = new
+        self._db[name][key] = to_bytes(new)
         return new
 
     def hincrbyfloat(self, name, key, amount=1.0):
@@ -775,7 +775,7 @@ class FakeStrictRedis(object):
         except ValueError:
             raise redis.ResponseError("hash value is not a valid float")
         new = current + amount
-        self._db[name][key] = new
+        self._db[name][key] = to_bytes(new)
         return new
 
     def hkeys(self, name):
